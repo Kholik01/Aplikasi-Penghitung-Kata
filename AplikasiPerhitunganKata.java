@@ -4,6 +4,11 @@
  */
 package Tugas5;
 
+import java.io.File;
+import java.io.FileWriter;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ACER
@@ -15,6 +20,21 @@ public class AplikasiPerhitunganKata extends javax.swing.JFrame {
      */
     public AplikasiPerhitunganKata() {
         initComponents();
+        
+          // Tombol Hitung
+        jButton3.addActionListener(evt -> {
+            
+        });
+
+        // Tombol Simpan
+        jButton2.addActionListener(evt -> {
+          
+        });
+
+        // Tombol Cari
+        jButton1.addActionListener(evt -> {
+            
+        });
     }
 
     /**
@@ -46,14 +66,29 @@ public class AplikasiPerhitunganKata extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(51, 255, 51));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setText("Cari");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(255, 153, 51));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton2.setText("Simpan");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(255, 51, 51));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton3.setText("Hitung");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setBackground(new java.awt.Color(51, 204, 255));
 
@@ -156,6 +191,70 @@ public class AplikasiPerhitunganKata extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String teks = jTextArea1.getText();
+            if (teks.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Silakan masukkan teks terlebih dahulu!");
+                return;
+            }
+
+            int jumlahKata = teks.trim().isEmpty() ? 0 : teks.trim().split("\\s+").length;
+            int jumlahKarakter = teks.length();
+            int jumlahKalimat = teks.split("[.!?]+").length;
+            int jumlahParagraf = teks.split("\\n+").length;
+
+            jLabel3.setText("Jumlah Kata : " + jumlahKata);
+            jLabel4.setText("Jumlah Karakter : " + jumlahKarakter);
+            jLabel5.setText("Jumlah Kalimat : " + jumlahKalimat);
+            jLabel6.setText("Jumlah Paragraf : " + jumlahParagraf);
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+          try {
+                String teks = jTextArea1.getText();
+                if (teks.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Tidak ada teks untuk disimpan!");
+                    return;
+                }
+
+                JFileChooser fileChooser = new JFileChooser();
+                int option = fileChooser.showSaveDialog(null);
+                if (option == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    FileWriter writer = new FileWriter(file + ".txt");
+                    writer.write(teks);
+                    writer.close();
+                    JOptionPane.showMessageDialog(null, "Teks berhasil disimpan ke file!");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Terjadi kesalahan saat menyimpan file: " + e.getMessage());
+            }// TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       try {
+                String teks = jTextArea1.getText();
+                String cari = jTextField1.getText();
+
+                if (teks.isEmpty() || cari.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Isi teks dan kata yang ingin dicari terlebih dahulu!");
+                    return;
+                }
+
+                int index = teks.toLowerCase().indexOf(cari.toLowerCase());
+                if (index != -1) {
+                    jTextArea1.requestFocus();
+                    jTextArea1.select(index, index + cari.length());
+                    JOptionPane.showMessageDialog(null, "Kata \"" + cari + "\" ditemukan!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Kata \"" + cari + "\" tidak ditemukan!");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Terjadi kesalahan saat mencari: " + e.getMessage());
+            } // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
